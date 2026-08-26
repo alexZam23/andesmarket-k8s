@@ -38,3 +38,10 @@ spec:
                 secretKeyRef:
                   name: andesmarket-secret
                   key: API_KEY
+          volumeMounts:
+            - name: data-volume
+              mountPath: /data
+      volumes:
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: andesmarket-pvc
