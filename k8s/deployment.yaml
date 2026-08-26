@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: andesmarket-deployment
+  labels:
+    app: andesmarket
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: andesmarket
+  template:
+    metadata:
+      labels:
+        app: andesmarket
+    spec:
+      containers:
+        - name: andesmarket
+          image: andesmarket:v2
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          env:
+            - name: APP_VERSION
+              value: "v2"
+            - name: EMPRESA
+              valueFrom:
+                configMapKeyRef:
+                  name: andesmarket-config
+                  key: EMPRESA
+            - name: CIUDAD
+              valueFrom:
+                configMapKeyRef:
+                  name: andesmarket-config
+                  key: CIUDAD
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: andesmarket-secret
+                  key: API_KEY
